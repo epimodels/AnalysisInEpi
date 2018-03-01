@@ -19,6 +19,7 @@ bin3 <- glm(Survived ~ Sex + Age,family=binomial(link='log'),data=titanic,trace=
 
 age <- glm(Survived ~ Age,family=binomial(link='log'),data=titanic,trace=TRUE)
 summary(sex)
+summary(age)
 
 start <- c(-1.16,-1.239,0.51447)
 age_sex <- glm(Survived ~ Sex + Age,family=binomial(link='log'),data=titanic,trace=TRUE,start=start)
@@ -57,19 +58,5 @@ sex_UCL <- exp(sex_beta + (1.96*sex_se))
 
 cat("Adjusted RR :", sex_RR, "95% CI: ", sex_LCL,",",sex_UCL)
 
-
-
-
-
-
-
-a <- glm(Survived~Sex,data=titanic,family=poisson)
-b.out <- NULL
-se.out <- NULL
-b.out <- rbind(b.out,a$coef)
-se.out <- rbind(se.out, coeftest(a,vcov=sandwich)[,2])
-
-
-
-summary(glm(Survived~Sex,data=titanic,family=binomial(link='logit')))
-summary(glm(Survived~Sex,data=titanic,family=binomial(link='log')))
+start_full <- c(-0.29514,-1.19174,0.48028,0.30396,-0.07253,-0.46057)
+full <- glm(Survived ~ Sex + Age + Class,family=binomial(link='log'),data=titanic,trace=TRUE,start=start_full)
